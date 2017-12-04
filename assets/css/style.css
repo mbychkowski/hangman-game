@@ -12,8 +12,21 @@
   background-color: yellow;
 }
 
+.game-box {
+  height: 50px;
+}
+
 .letter-holder {
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  margin: 1%;
+  border-bottom-color: black;
+  text-align: center;
+}
+
+.letter-on {
+  color: black;
+}
+
+.letter-off {
+  color: white;
 }
