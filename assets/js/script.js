@@ -79,6 +79,7 @@ function onClickNewWord() {
 
   document.onkeyup = function(event) {
     var userGuess = event.key.toUpperCase();
+    var correctGuess = false;
 
     for (var j = 0; j < letterArr.length; j++) {
 
@@ -89,23 +90,32 @@ function onClickNewWord() {
         letterArr[j].letterOn(document.getElementsByClassName('letter-holder')[j]);
 
         countCorrectGuess++;
+
+        correctGuess = true;
       }
     }
 
-    console.log(countCorrectGuess);
+    if (correctGuess != true) {
+      countIncorrectGuess++;
+      // trigger for hangman guy
+    }
 
     if (countCorrectGuess === newWord.length) {
       console.log('Winner!');
       wins++;
+      winCountElement.innerText = wins;
       console.log('Win count', wins);
-      return
+      return;
       // play some awesome music
     }
 
+    // 7 incorrect guesses and YOU LOSE!
     if (countIncorrectGuess >= 7) {
       console.log('Loser');
       losses++;
-      return
+      lossCountElement.innerText = losses;
+      console.log('Win count', wins);
+      return;
       // play loser music
     }
   }
