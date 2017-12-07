@@ -58,7 +58,7 @@ class Letter {
 }
 
 var audioElement = document.createElement("audio");
-audioElement.setAttribute("src", "Assets/audio/spooky-rush.m4a");
+audioElement.setAttribute("src", "Assets/audio/spooky-rush.mp3");
 function playAudio() {
   audioElement.play();
 }
