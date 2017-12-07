@@ -1,6 +1,7 @@
 var wordList = ['hydrogen', 'helium', 'lithium', 'beryllium', 'boron', 'carbon',
-'nitrogen', 'oxygen', 'fluorine', 'neon', 'sodium', 'magnesium', 'aliminium',
-'silicon', 'chlorine', 'argon', 'potassium', 'calcium'];
+  'nitrogen', 'oxygen', 'fluorine', 'neon', 'sodium', 'magnesium', 'aliminium',
+  'silicon', 'chlorine', 'argon', 'potassium', 'calcium'
+];
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 ];
@@ -56,8 +57,19 @@ class Letter {
   }
 }
 
+var audioElement = document.createElement("audio");
+audioElement.setAttribute("src", "Assets/audio/spooky-rush.wav");
+function playAudio() {
+  audioElement.play();
+}
+function pauseAudio() {
+  audioElement.pause();
+}
+
 var newWord;
 function onClickNewWord() {
+  pauseAudio();
+
   countDown = 7;
   guessesLeft.innerText = countDown;
 
@@ -111,6 +123,11 @@ function onClickNewWord() {
       countIncorrectGuess++;
       countDown -= 1;
       guessesLeft.innerText = countDown;
+
+      if (countIncorrectGuess > 4)
+      {
+        playAudio();
+      }
     }
 
     if (countCorrectGuess === newWord.length) {
