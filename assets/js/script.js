@@ -1,6 +1,6 @@
-var wordList = ['Columbia', 'Dupont', 'Alexandria', 'Obama', 'Republican',
-  'Democrat'
-];
+var wordList = ['hydrogen', 'helium', 'lithium', 'beryllium', 'boron', 'carbon',
+'nitrogen', 'oxygen', 'fluorine', 'neon', 'sodium', 'magnesium', 'aliminium',
+'silicon', 'chlorine', 'argon', 'potassium', 'calcium'];
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 ];
@@ -10,6 +10,9 @@ var winCountElement = document.getElementById('win-count');
 var wins = 0;
 var lossCountElement = document.getElementById('loss-count');
 var losses = 0;
+var guessesLeft = document.getElementById('guesses-left');
+var countDown = 0;
+var letterGuessed = document.getElementById('letters-guessed');
 
 // Word class
 class Letter {
@@ -30,7 +33,6 @@ class Letter {
 
   get isInWord() {
     return this._isInWord;
-
   }
   // This creates a new letter and defines the div element in which the
   // the character will reside
@@ -54,7 +56,11 @@ class Letter {
   }
 }
 
+var newWord;
 function onClickNewWord() {
+  countDown = 7;
+  guessesLeft.innerText = countDown;
+
   var countCorrectGuess = 0;
   var countIncorrectGuess = 0;
 
@@ -63,6 +69,10 @@ function onClickNewWord() {
   // Remove any child element in game-word ID
   while (gameWord.firstChild) {
     gameWord.removeChild(gameWord.firstChild);
+  }
+
+  while (letterGuessed.firstChild) {
+    letterGuessed.removeChild(letterGuessed.firstChild);
   }
 
   // New random number to access random word in wordList
@@ -77,8 +87,10 @@ function onClickNewWord() {
     letterArr.push(newLetter);
   }
 
+  var userGuess;
   document.onkeyup = function(event) {
-    var userGuess = event.key.toUpperCase();
+    userGuess = event.key.toUpperCase();
+
     var correctGuess = false;
 
     for (var j = 0; j < letterArr.length; j++) {
@@ -97,14 +109,16 @@ function onClickNewWord() {
 
     if (correctGuess != true) {
       countIncorrectGuess++;
-      // trigger for hangman guy
+      countDown -= 1;
+      guessesLeft.innerText = countDown;
     }
 
     if (countCorrectGuess === newWord.length) {
       console.log('Winner!');
       wins++;
       winCountElement.innerText = wins;
-      console.log('Win count', wins);
+      alert('Winner! the word is: ' + newWord.toUpperCase());
+      onClickNewWord();
       return;
       // play some awesome music
     }
@@ -114,9 +128,16 @@ function onClickNewWord() {
       console.log('Loser');
       losses++;
       lossCountElement.innerText = losses;
-      console.log('Win count', wins);
+      alert('You lose! the word was: ' + newWord.toUpperCase());
+      onClickNewWord();
       return;
       // play loser music
     }
+    // Display letters guessed.
+    var newEl = document.createElement('div');
+    newEl.className = 'h3 ml-1'
+    var newGuess = document.createTextNode(userGuess + ' /');
+    newEl.appendChild(newGuess);
+    letterGuessed.appendChild(newEl);
   }
 }
